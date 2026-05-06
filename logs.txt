@@ -1,0 +1,23 @@
+[2026-05-06 21:15:01] === SISTEMA DE GESTIÓN EMPRESARIAL 'NEXUS SOLUTIONS' INICIADO ===
+[2026-05-06 21:15:02] REGISTRO 1: Cliente 'Roberto Forlán' dado de alta con éxito.
+[2026-05-06 21:15:02] REGISTRO 1: Transacción cerrada.
+[2026-05-06 21:15:03] REGISTRO 2: ALERTA DE SISTEMA -> El documento debe contener solo números (Dato recibido: no-es-numero).
+[2026-05-06 21:15:03] REGISTRO 2: Transacción cerrada.
+[2026-05-06 21:15:04] REGISTRO 3: Sala reservada exitosamente. Facturación final (inc. impuesto 15%): $460000.0
+[2026-05-06 21:15:04] REGISTRO 3: Transacción cerrada.
+[2026-05-06 21:15:05] REGISTRO 4: ALERTA DE SISTEMA -> Inconsistencia en alquiler: La duración debe ser al menos de 24 horas.
+[2026-05-06 21:15:05]    ORIGEN TÉCNICO: ValueError: Días en cero no permitidos.
+[2026-05-06 21:15:05] REGISTRO 4: Transacción cerrada.
+[2026-05-06 21:15:06] REGISTRO 5: Consultoría técnica 'Asesoría Estándar' agendada (2 horas).
+[2026-05-06 21:15:06] REGISTRO 5: Transacción cerrada.
+[2026-05-06 21:15:07] REGISTRO 6: ALERTA DE SISTEMA -> Nombre de cliente no puede estar vacío.
+[2026-05-06 21:15:07] REGISTRO 6: Transacción cerrada.
+[2026-05-06 21:15:08] REGISTRO 7: ALERTA DE SISTEMA -> Espacio no disponible para ese tiempo (Duración: -1).
+[2026-05-06 21:15:08] REGISTRO 7: Transacción cerrada.
+[2026-05-06 21:15:09] REGISTRO 8: Equipo 'Servidor Rack' despachado correctamente por 5 días.
+[2026-05-06 21:15:09] REGISTRO 8: Transacción cerrada.
+[2026-05-06 21:15:10] REGISTRO 9: Consultoría técnica agendada exitosamente.
+[2026-05-06 21:15:10] REGISTRO 9: Transacción cerrada.
+[2026-05-06 21:15:11] REGISTRO 10: Cliente 'Lucía Méndez' dado de alta con éxito.
+[2026-05-06 21:15:11] REGISTRO 10: Transacción cerrada.
+[2026-05-06 21:15:12] === SIMULACIÓN COMPLETADA - ESTADO DEL NÚCLEO: ESTABLE ===
