@@ -1,0 +1,21 @@
+[2026-05-05 08:49:16.034700] INFO: Cliente creado: jhon villota
+[2026-05-05 08:49:16.034700] INFO: Reserva confirmada jhon villota (1193255483)
+[2026-05-05 08:49:16.034700] INFO: Costo calculado 240000
+[2026-05-05 08:49:39.847062] ERROR: Correo inválido
+[2026-05-05 08:49:39.851922] ERROR: Correo inválido
+[2026-05-05 08:49:51.425382] INFO: Cliente creado: kdfvkdf
+[2026-05-05 08:49:51.425382] INFO: Reserva confirmada kdfvkdf (3345345)
+[2026-05-05 08:49:51.425382] INFO: Costo calculado 400000
+[2026-05-05 08:50:01.410554] ERROR: Nombre inválido
+[2026-05-05 08:50:01.426375] ERROR: Nombre inválido
+[2026-05-05 08:59:58.868794] INFO: Cliente creado: jhon villota
+[2026-05-05 08:59:58.868794] INFO: Reserva confirmada para jhon villota (2162136)
+[2026-05-05 08:59:58.868794] INFO: Reserva PROCESADA | Cliente: jhon villota (2162136) | Servicio: Equipo: Proyector por 2 días | Duración: 2 | Costo: 160000
+[2026-05-05 09:02:42.680885] ERROR: Correo inválido
+[2026-05-05 09:02:42.686483] ERROR: Correo inválido
+[2026-05-05 09:02:48.773243] INFO: Cliente creado: juana
+[2026-05-05 09:02:48.773243] INFO: Reserva confirmada para juana (467427)
+[2026-05-05 09:02:48.773243] INFO: Reserva PROCESADA | Cliente: juana (467427) | Servicio: Asesoría por 45 horas | Duración: 45 | Costo: 4500000
+[2026-05-05 09:03:18.174724] INFO: Cliente creado: miguel
+[2026-05-05 09:03:18.177830] INFO: Reserva confirmada para miguel (1312234)
+[2026-05-05 09:03:18.177830] INFO: Reserva PROCESADA | Cliente: miguel (1312234) | Servicio: Sala por 56 horas | Duración: 56 | Costo: 3332000.0
