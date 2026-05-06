@@ -1,70 +1,89 @@
-import datetime
+import tkinter as tk
+from tkinter import ttk, messagebox
 from cliente import Cliente
-from reserva_sala import ReservaSala
-from alquiler_equipo import AlquilerEquipo
-from asesoria import Asesoria
+from servicio import ReservaSala, AlquilerEquipo, Asesoria
 from reserva import Reserva
-from logger import registrar_evento
-import excepciones
+from logger import logger
 
-def iniciar_sistema_integral():
-    registrar_evento("=== SISTEMA DE GESTIÓN EMPRESARIAL 'NEXUS SOLUTIONS' INICIADO ===")
-    
-    casos_prueba = [
-        {"tipo": "CLI", "data": ("Roberto Forlán", "98765432", "r.forlan@email.net")},
-        {"tipo": "CLI", "data": ("Marta", "no-es-numero", "marta@web.org")}, # ERROR: Documento inválido
-        {"tipo": "SALA", "data": (8, 0.15)}, # Éxito con impuesto personalizado
-        {"tipo": "EQUIPO", "data": ("Estación de Trabajo", 0)}, # ERROR: Días en cero
-        {"tipo": "ASE", "data": (12,)}, # Correcto
-        {"tipo": "CLI", "data": ("", "11223344", "anonimo@mail.com")}, # ERROR: Nombre vacío
-        {"tipo": "SALA", "data": (-1, 0.19)}, # ERROR: Tiempo negativo
-        {"tipo": "EQUIPO", "data": ("Servidor Rack", 5)}, # Éxito
-        {"tipo": "ASE", "data": (4,)}, # Correcto
-        {"tipo": "CLI", "data": ("Lucía Méndez", "55667788", "lucia.m@cloud.com")} # Correcto
-    ]
+class App:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Software FJ - Sistema de Reservas")
+        self.root.geometry("650x500")
 
-    for i, item in enumerate(casos_prueba, 1):
-        print(f"Procesando registro {i}...")
+        frame = ttk.Frame(root, padding=10)
+        frame.pack(fill="both", expand=True)
+
+        ttk.Label(frame, text="REGISTRO DE RESERVAS", font=("Arial", 16)).pack()
+
+        ttk.Label(frame, text="Nombre Cliente").pack()
+        self.nombre = ttk.Entry(frame)
+        self.nombre.pack()
+
+        ttk.Label(frame, text="Documento").pack()
+        self.doc = ttk.Entry(frame)
+        self.doc.pack()
+
+        ttk.Label(frame, text="Correo").pack()
+        self.correo = ttk.Entry(frame)
+        self.correo.pack()
+
+        ttk.Label(frame, text="Tipo de Servicio").pack()
+        self.servicio = ttk.Combobox(frame, values=["Sala", "Alquiler Equipo", "Asesoría"])
+        self.servicio.pack()
+
+        ttk.Label(frame, text="Cantidad (días/horas)").pack()
+        self.cantidad = ttk.Entry(frame)
+        self.cantidad.pack()
+
+        ttk.Label(frame, text="Equipo (solo alquiler)").pack()
+        self.equipo = ttk.Combobox(frame, values=["Laptop", "Proyector", "Cámara"])
+        self.equipo.pack()
+
+        ttk.Button(frame, text="Crear Reserva", command=self.crear).pack(pady=10)
+
+    def limpiar_campos(self):
+        self.nombre.delete(0, tk.END)
+        self.doc.delete(0, tk.END)
+        self.correo.delete(0, tk.END)
+        self.cantidad.delete(0, tk.END)
+        self.servicio.set("")
+        self.equipo.set("")
+
+    def crear(self):
         try:
-            if item["tipo"] == "CLI":
-                nuevo = Cliente(*item["data"])
-                registrar_evento(f"REGISTRO {i}: Cliente '{item['data'][0]}' dado de alta.")
-            
-            elif item["tipo"] == "SALA":
-                if item["data"][0] <= 0: raise excepciones.ServicioNoDisponibleError("Espacio no disponible para ese tiempo")
-                obj = ReservaSala(item["data"][0])
-                final = obj.calcular_costo(item["data"][1])
-                registrar_evento(f"REGISTRO {i}: Sala reservada. Facturación: ${final}")
+            cliente = Cliente(
+                self.nombre.get(),
+                self.doc.get(),
+                self.correo.get()
+            )
 
-            elif item["tipo"] == "EQUIPO":
-                if item["data"][1] <= 0:
-                    try:
-                        raise ValueError("La duración debe ser al menos de 24 horas")
-                    except ValueError as base_err:
-                        raise excepciones.OperacionNoPermitidaError("Inconsistencia en alquiler") from base_err
-                
-                obj = AlquilerEquipo(item["data"][1])
-                registrar_evento(f"REGISTRO {i}: {item['data'][0]} despachado correctamente.")
+            tipo = self.servicio.get()
+            cantidad = int(self.cantidad.get())
 
-            elif item["tipo"] == "ASE":
-                obj = Asesoria(item["data"][0])
-                registrar_evento(f"REGISTRO {i}: Consultoría técnica agendada.")
+            if tipo == "Sala":
+                servicio = ReservaSala(cantidad)
+            elif tipo == "Alquiler Equipo":
+                servicio = AlquilerEquipo(cantidad, self.equipo.get())
+            elif tipo == "Asesoría":
+                servicio = Asesoria(cantidad)
+            else:
+                raise Exception("Seleccione servicio")
 
-        except (ValueError, excepciones.ServicioNoDisponibleError, excepciones.OperacionNoPermitidaError) as err:
-            registrar_evento(f"REGISTRO {i}: ALERTA DE SISTEMA -> {str(err)}")
-            if err.__cause__:
-                registrar_evento(f"   ORIGEN TÉCNICO: {err.__cause__}")
-        
-        except Exception as general:
-            registrar_evento(f"REGISTRO {i}: FALLO NO IDENTIFICADO -> {str(general)}")
-        
-        else:
-            print(f"Paso {i} finalizado con éxito.")
-        
-        finally:
-            registrar_evento(f"REGISTRO {i}: Transacción cerrada.\n")
+            reserva = Reserva(cliente, servicio)
+            reserva.confirmar()
+            total = reserva.procesar()
 
-    registrar_evento("=== SIMULACIÓN COMPLETADA - ESTADO DEL NÚCLEO: ESTABLE ===")
+            messagebox.showinfo("Éxito", f"Reserva creada\nTotal: {total}")
+
+            self.limpiar_campos()
+
+        except Exception as e:
+            logger.log("ERROR", str(e))
+            messagebox.showerror("Error", str(e))
+
 
 if __name__ == "__main__":
-    iniciar_sistema_integral()
+    root = tk.Tk()
+    App(root)
+    root.mainloop()
